@@ -53,4 +53,11 @@ public class DataBaseProductService implements ProductService{
         product.setCategory(categoryFromDatabase);
         return productRepository.save(product);
     }
+
+    @Override
+    public Long deleteProduct(long id) throws ProductNotFoundException {
+        return 0L;
+    }
+
+
 }

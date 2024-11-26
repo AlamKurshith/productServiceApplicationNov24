@@ -7,6 +7,7 @@ import com.example.productservice.Models.Product;
 import com.example.productservice.ProductServiceApplication;
 import com.example.productservice.Services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
-    public ProductController(@Qualifier("databaseProductService") ProductService productService){
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
         this.productService = productService;
     }
 
@@ -48,6 +49,12 @@ public class ProductController {
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(product, HttpStatusCode.valueOf(201));
 
         return responseEntity;
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        Long deletedProductId = productService.deleteProduct(id);
+        return new ResponseEntity<>(deletedProductId, HttpStatus.OK);
     }
 
 //    @ExceptionHandler(NullPointerException.class)
